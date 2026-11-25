@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Voice & Info Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --font-title: 'Orbitron', sans-serif;
+      --font-body: 'Rajdhani', sans-serif;
+      --accent-color: #a855f7;
+      --glow-color: rgba(168, 85, 247, 0.5);
+      --bg-dark: #0a051b;
+    }
+
+    [data-theme="purple"] { --accent-color: #a855f7; --glow-color: rgba(168, 85, 247, 0.5); --bg-dark: #0a051b; }
+    [data-theme="red"] { --accent-color: #ef4444; --glow-color: rgba(239, 68, 68, 0.5); --bg-dark: #1a0505; }
+    [data-theme="orange"] { --accent-color: #f97316; --glow-color: rgba(249, 115, 22, 0.5); --bg-dark: #1a0d02; }
+    [data-theme="green"] { --accent-color: #059669; --glow-color: rgba(5, 150, 105, 0.5); --bg-dark: #02140d; }
+    [data-theme="emerald"] { --accent-color: #10b981; --glow-color: rgba(16, 185, 129, 0.5); --bg-dark: #021a12; }
+    [data-theme="blue"] { --accent-color: #3b82f6; --glow-color: rgba(59, 130, 246, 0.5); --bg-dark: #050b1a; }
+    [data-theme="cyan"] { --accent-color: #06b6d4; --glow-color: rgba(6, 182, 212, 0.5); --bg-dark: #02181f; }
+    [data-theme="pink"] { --accent-color: #ec4899; --glow-color: rgba(236, 72, 153, 0.5); --bg-dark: #1a0212; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.4s ease, border-color 0.4s ease;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #fff;
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: var(--accent-color);
+      filter: blur(250px);
+      opacity: 0.2;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      text-align: center;
+      z-index: 1;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .extra-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .right-slots-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .lang-switch {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lang-btn, .gallery-btn, .mode-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-family: var(--font-title);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 160px;
+    }
+
+    .gallery-btn, .mode-btn {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      width: auto;
+    }
+
+    .gallery-btn:hover, .mode-btn:hover {
+      background: var(--accent-color);
+      color: #000;
+      box-shadow: 0 0 15px var(--glow-color);
+    }
+
+    .lang-btn:hover, .lang-btn.active {
+      background: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    .logo {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: var(--accent-color);
+      text-shadow: 0 0 15px var(--glow-color);
+    }
+
+    .subtitle {
+      color: #a1a1aa;
+      margin-top: 5px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      width: 100%;
+    }
+
+    .search-box {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent-color);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    .filter-box select {
+      padding: 12px 15px;
+      background: rgba(20, 20, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* --- ANIME MARQUEE SLIDER STYLES --- */
+    .marquee-container {
+      width: 100%;
+      max-width: 800px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      z-index: 1;
+      position: relative;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      animation: scrollMarquee 25s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    .marquee-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(8px);
+      min-width: 220px;
+      transition: all 0.3s ease;
+    }
+
+    .marquee-card:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 15px var(--glow-color);
+      transform: translateY(-3px);
+    }
+
+    .marquee-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent-color);
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    .marquee-info h4 {
+      font-family: var(--font-title);
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    .marquee-info span {
+      font-size: 0.75rem;
+      color: var(--accent-color);
+    }
+
+    @keyframes scrollMarquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-50% - 10px)); }
+    }
+    /* ---------------------------------- */
+
+    .vault-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      z-index: 1;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .character-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .character-card:hover, .character-card.active {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 20px var(--glow-color);
+      transform: translateY(-4px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .avatar-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-color);
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+    }
+
+    .card-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .like-btn {
+      background: transparent;
+      border: none;
+      color: #a1a1aa;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .like-btn:hover {
+      transform: scale(1.2);
+    }
+
+    .like-btn.liked {
+      color: #ef4444;
+      text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      font-family: var(--font-title);
+    }
+
+    h2 {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      margin: 6px 0 2px 0;
+    }
+
+    .info-badge {
+      font-size: 0.8rem;
+      color: #a1a1aa;
+      margin-bottom: 8px;
+    }
+
+    .quote {
+      font-size: 0.9rem;
+      color: #d4d4d8;
+      font-style: italic;
+      margin: 10px 0 18px 0;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .play-btn {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--accent-color);
+      color: #fff;
+      border-radius: 8px;
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .character-card:hover .play-btn {
+      background: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    .quote-toast {
+      position: fixed;
+      bottom: 25px;
+      background: rgba(10, 10, 15, 0.95);
+      border: 1px solid var(--accent-color);
+      padding: 12px 24px;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      z-index: 10;
+      box-shadow: 0 0 15px var(--glow-color);
+    }
+
+    .quote-toast.show { opacity: 1; transform: translateY(0); }
+
+    .sound-wave { display: flex; gap: 3px; height: 12px; }
+    .sound-wave span { width: 3px; background: var(--accent-color); animation: wave 0.8s infinite ease-in-out; }
+    .sound-wave span:nth-child(2) { animation-delay: 0.2s; }
+    .sound-wave span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes wave { 0%, 100% { height: 3px; } 50% { height: 14px; } }
+
+    /* MODAL STYLES */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 2, 15, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: rgba(20, 15, 35, 0.95);
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 30px var(--glow-color);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 950px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 20px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      color: var(--accent-color);
+    }
+
+    .close-modal {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .close-modal:hover { color: var(--accent-color); }
+
+    .modal-body {
+      padding: 25px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 18px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .info-card:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-4px);
+      box-shadow: 0 0 15px var(--glow-color);
+    }
+
+    .info-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 8px;
+    }
+
+    .info-card h4 {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .info-card .anime-name {
+      font-size: 0.75rem;
+      color: var(--accent-color);
+      font-family: var(--font-title);
+    }
+
+    .info-details {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .info-tag {
+      display: inline-block;
+      background: rgba(168, 85, 247, 0.15);
+      color: var(--accent-color);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    /* VERSUS STYLES */
+    .versus-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .versus-selectors {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .versus-selectors select {
+      padding: 10px 15px;
+      background: rgba(20, 20, 30, 0.9);
+      border: 1px solid var(--accent-color);
+      border-radius: 10px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .versus-arena {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 15px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .fighter-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .fighter-card.winner {
+      border-color: #10b981;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .fighter-card h4 {
+      font-family: var(--font-title);
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .winner-badge {
+      display: none;
+      position: absolute;
+      top: -12px;
+      right: 15px;
+      background: #10b981;
+      color: #000;
+      font-family: var(--font-title);
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    }
+
+    .fighter-card.winner .winner-badge {
+      display: block;
+    }
+
+    .stat-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.9rem;
+    }
+
+    .stat-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      background: var(--accent-color);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .vs-badge {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--accent-color);
+      text-shadow: 0 0 15px var(--glow-color);
+    }
+
+    .versus-result-box {
+      text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: #fbbf24;
+    }
+
+    .compare-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent-color);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font-title);
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--glow-color);
+      transition: all 0.3s ease;
+    }
+
+    .compare-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .quiz-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .quiz-question {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .quiz-opt-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-opt-btn:hover {
+      border-color: var(--accent-color);
+      background: rgba(168, 85, 247, 0.1);
+    }
+
+    .quiz-opt-btn.correct {
+      background: #059669 !important;
+      border-color: #10b981 !important;
+    }
+
+    .quiz-opt-btn.wrong {
+      background: #ef4444 !important;
+      border-color: #f87171 !important;
+    }
+
+    .quiz-score {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 600px) {
+      .vault-container { grid-template-columns: 1fr; }
+      .modal-body { grid-template-columns: 1fr; }
+      .versus-arena { grid-template-columns: 1fr; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .top-bar { flex-direction: column; align-items: stretch; }
+      .right-slots-column { align-items: stretch; }
+      .lang-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body data-theme="purple">
+
+  <div class="bg-glow"></div>
+
+  <header>
+    <div class="top-bar" style="align-items: flex-end;">
+      <div class="extra-nav">
+        <button class="mode-btn" id="randomVoiceTestBtn"><i class="fa-solid fa-headphones"></i> <span id="randomBtnText">Tasodifiy Ovoz</span></button>
+        <button class="mode-btn" id="openLikedModalBtn"><i class="fa-solid fa-heart" style="color: #ef4444;"></i> <span id="likedBtnText">Sevimlilar</span></button>
+        <button class="mode-btn" id="openVersusBtn"><i class="fa-solid fa-fire"></i> <span id="versusBtnText">Versus</span></button>
+        <button class="mode-btn" id="openQuizBtn"><i class="fa-solid fa-gamepad"></i> <span id="quizBtnText">Quiz</span></button>
+        <button class="gallery-btn" id="openGalleryBtn">
+          <i class="fa-solid fa-book-open"></i> <span id="galleryBtnText">Ma'lumotlar</span>
+        </button>
+      </div>
+
+      <div class="right-slots-column">
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="uz">UZB</button>
+          <button class="lang-btn" data-lang="ru">RUS</button>
+          <button class="lang-btn" data-lang="en">ENG</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo">VOICE<span>.VAULT</span></div>
+    <p class="subtitle" id="subtitleText">Har bir animedan 4 ta eng mashhur personaj va ma'lumotlar</p>
+    
+    <div class="controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Qahramon yoki anime nomini qidiring...">
+      </div>
+      <div class="filter-box">
+        <select id="animeFilter">
+          <option value="all" id="allAnimeOpt">Barcha Animelar</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- ANIME MARQUEE SLIDER (QO'SHILDI) -->
+  <div class="marquee-container">
+    <div class="marquee-track" id="marqueeTrack">
+      <!-- 1-to'plam -->
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=100&h=100&fit=crop" alt="Levi" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Levi Ackerman</h4>
+          <span>Attack on Titan</span>
+        </div>
+      </div>
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=100&h=100&fit=crop" alt="Gojo" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Gojo Satoru</h4>
+          <span>Jujutsu Kaisen</span>
+        </div>
+      </div>
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=100&h=100&fit=crop" alt="Eren" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Eren Yeager</h4>
+          <span>Attack on Titan</span>
+        </div>
+      </div>
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop" alt="Itadori" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Itadori Yuji</h4>
+          <span>Jujutsu Kaisen</span>
+        </div>
+      </div>
+
+      <!-- Uzluksiz aylanishi uchun dublyaj qilingan 2-to'plam -->
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=100&h=100&fit=crop" alt="Levi" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Levi Ackerman</h4>
+          <span>Attack on Titan</span>
+        </div>
+      </div>
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=100&h=100&fit=crop" alt="Gojo" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Gojo Satoru</h4>
+          <span>Jujutsu Kaisen</span>
+        </div>
+      </div>
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=100&h=100&fit=crop" alt="Eren" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Eren Yeager</h4>
+          <span>Attack on Titan</span>
+        </div>
+      </div>
+      <div class="marquee-card">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop" alt="Itadori" class="marquee-avatar">
+        <div class="marquee-info">
+          <h4>Itadori Yuji</h4>
+          <span>Jujutsu Kaisen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="vault-container" id="vaultContainer"></main>
+
+  <!-- MA'LUMOTLAR OYNASI (MODAL) -->
+  <div class="modal-overlay" id="galleryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Personajlar Ensiklopediyasi</h3>
+        <button class="close-modal" id="closeGalleryBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="galleryGrid"></div>
+    </div>
+  </div>
+
+  <!-- SEVIMLILAR (LIKED) OYNASI -->
+  <div class="modal-overlay" id="likedModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="likedModalTitle">Sevimli Qahramonlaringiz</h3>
+        <button class="close-modal" id="closeLikedModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="likedGrid"></div>
+    </div>
+  </div>
+
+  <!-- TASODIFIY OVOZ TEST MODAL -->
+  <div class="modal-overlay" id="randomVoiceModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="randomModalTitle">Kimning ovozi? (Topishmoq)</h3>
+        <button class="close-modal" id="closeRandomModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="display: block;">
+        <div class="quiz-container">
+          <button class="play-btn" id="replayRandomVoiceBtn" style="margin-bottom: 10px;"><i class="fas fa-volume-high"></i> Ovozni qayta eshitish</button>
+          <div class="quiz-question" id="randomVoiceHint">Bu qahramon qaysi animedan va ismi nima?</div>
+          <div class="quiz-options" id="randomVoiceOptions"></div>
+          <div class="quiz-score" id="randomGameResultText" style="margin-top: 10px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERSUS MODE MODAL -->
+  <div class="modal-overlay" id="versusModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="versusModalTitle">Versus Mode: Personajlar jangi</h3>
+        <button class="close-modal" id="closeVersusBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="display: block;">
+        <div class="versus-container">
+          <div class="versus-selectors">
+            <select id="fighter1Select"></select>
+            <select id="fighter2Select"></select>
+          </div>
+
+          <div class="versus-arena">
+            <div class="fighter-card" id="fighter1Card">
+              <div class="winner-badge" id="f1WinnerBadge">G'OLIB</div>
+              <h4 id="f1Name">-</h4>
+              <p id="f1Role" class="info-badge">-</p>
+              
+              <div class="stat-row">
+                <span>Jangovar kuch: <strong id="f1PowerNum">0</strong>/100</span>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="f1PowerBar" style="width: 0%"></div></div>
+              </div>
+              <div class="stat-row">
+                <span>Aql / Intellekt: <strong id="f1IntNum">0</strong>/100</span>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="f1IntBar" style="width: 0%"></div></div>
+              </div>
+              <div class="stat-row">
+                <span>Umumiy reyting: <strong id="f1TotalNum">0</strong>/100</span>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="f1TotalBar" style="width: 0%"></div></div>
+              </div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="fighter-card" id="fighter2Card">
+              <div class="winner-badge" id="f2WinnerBadge">G'OLIB</div>
+              <h4 id="f2Name">-</h4>
+              <p id="f2Role" class="info-badge">-</p>
+
+              <div class="stat-row">
+                <span>Jangovar kuch: <strong id="f2PowerNum">0</strong>/100</span>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="f2PowerBar" style="width: 0%"></div></div>
+              </div>
+              <div class="stat-row">
+                <span>Aql / Intellekt: <strong id="f2IntNum">0</strong>/100</span>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="f2IntBar" style="width: 0%"></div></div>
+              </div>
+              <div class="stat-row">
+                <span>Umumiy reyting: <strong id="f2TotalNum">0</strong>/100</span>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="f2TotalBar" style="width: 0%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="compare-btn" id="compareBtn"><i class="fa-solid fa-trophy"></i> Jang Natijasini Aniqlash</button>
+          <div class="versus-result-box" id="versusResultText">Qahramonlarni tanlang va natijani ko'ring</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ GAME MODAL -->
+  <div class="modal-overlay" id="quizModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="quizModalTitle">Anime Quiz Game</h3>
+        <button class="close-modal" id="closeQuizBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="display: block;">
+        <div class="quiz-container">
+          <div class="quiz-score" id="quizScoreText">Ball: 0</div>
+          <div class="quiz-question" id="quizQuestionText">Savol yuklanmoqda...</div>
+          <div class="quiz-options" id="quizOptionsContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-toast" id="quoteToast">
+    <div class="sound-wave">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <span class="toast-text" id="toastText">Ibora...</span>
+  </div>
+
+  <script>
+    let currentLang = 'uz';
+
+    const uiTranslations = {
+      uz: {
+        subtitle: "Har bir animedan 4 ta eng mashhur personaj va ma'lumotlar",
+        searchPlaceholder: "Qahramon yoki anime nomini qidiring...",
+        allAnime: "Barcha Animelar",
+        playBtn: "Ovozni tinglash",
+        galleryBtn: "Ma'lumotlar",
+        modalTitle: "Personajlar Ensiklopediyasi",
+        likedBtn: "Sevimlilar",
+        likedTitle: "Yoqtirgan Personajlaringiz",
+        randomBtn: "Tasodifiy Ovoz",
+        randomModalTitle: "Kimning ovozi? (Topishmoq)",
+        replayVoice: "Ovozni qayta eshitish",
+        versusBtn: "Versus",
+        quizBtn: "Quiz",
+        versusTitle: "Versus Mode: Personajlar Solishtiruvi (1-100)",
+        quizTitle: "Anime Quiz O'yini",
+        compareBtnText: "Jang Natijasini Aniqlash"
+      },
+      ru: {
+        subtitle: "Информация и голоса 4 популярных персонажей из аниме",
+        searchPlaceholder: "Поиск персонажа или аниме...",
+        allAnime: "Все Аниме",
+        playBtn: "Слушать голос",
+        galleryBtn: "Информация",
+        modalTitle: "Энциклопедия Персонажей",
+        likedBtn: "Избранное",
+        likedTitle: "Ваши любимые персонажи",
+        randomBtn: "Случайный голос",
+        randomModalTitle: "Чей голос? (Угадайка)",
+        replayVoice: "Прослушать снова",
+        versusBtn: "Версус",
+        quizBtn: "Викторина",
+        versusTitle: "Режим Версус: Сравнение персонажей (1-100)",
+        quizTitle: "Аниме Викторина",
+        compareBtnText: "Определить победителя"
+      },
+      en: {
+        subtitle: "Information and voices of 4 popular anime characters",
+        searchPlaceholder: "Search character or anime...",
+        allAnime: "All Anime",
+        playBtn: "Play Voice",
+        galleryBtn: "Information",
+        modalTitle: "Character Encyclopedia",
+        likedBtn: "Favorites",
+        likedTitle: "Your Favorite Characters",
+        randomBtn: "Random Voice",
+        randomModalTitle: "Whose voice is this? (Guess)",
+        replayVoice: "Replay Voice",
+        versusBtn: "Versus",
+        quizBtn: "Quiz",
+        versusTitle: "Versus Mode: Character Comparison (1-100)",
+        quizTitle: "Anime Quiz Game",
+        compareBtnText: "Determine Winner"
+      }
+    };
+
+    const charactersData = [
+      { id: 1, name: "Denji", anime: "Chainsaw Man", theme: "orange", role: "Bosh qahramon", power: "Arra Iblisi", powerStat: 82, intStat: 45, totalStat: 74, desc: "Pochita bilan birlashib Chainsaw Manga aylangan, oddiy baxtli hayotni orzu qiluvchi yigit.", quote: "Ore wa Chainsaw Man da!", uz: "Men Arra Odamman! Yaxshi hayot uchun kurashaman!", ru: "Я Человек-Бензопила!", en: "I'm Chainsaw Man!" },
+      { id: 2, name: "Makima", anime: "Chainsaw Man", theme: "red", role: "Jamoat Xavfsizligi Rahbari", power: "Boshqaruv Iblisi", powerStat: 98, intStat: 99, totalStat: 98, desc: "Juda ayyor, sovuqqon va insonlarni o'z izmiga bo'ysundira oladigan sirli personaj.", quote: "Shitagai nasai.", uz: "Menga bo'ysun va barcha buyruqlarimni bajar.", ru: "Подчиняйся мне.", en: "Obey me." },
+      { id: 3, name: "Aki Hayakawa", anime: "Chainsaw Man", theme: "cyan", role: "Iblis Ovchisi", power: "Tulki va Qilich Iblisi", powerStat: 78, intStat: 80, totalStat: 79, desc: "Oila qasosi uchun xizmat qiladigan, tartib-intizomli va jiddiy ovchi.", quote: "Kon.", uz: "Tulki iblisi, uni yo'q qil!", ru: "Дьявол-Лиса, уничтожь его!", en: "Fox Devil, devour him!" },
+      { id: 4, name: "Power", anime: "Chainsaw Man", theme: "pink", role: "Qon Iblisi", power: "Qon Manipulyatsiyasi", powerStat: 80, intStat: 50, totalStat: 72, desc: "O'ziga bino qo'ygan, do'stlariga sodiq va mushuklarni juda yaxshi ko'radigan qon iblisi.", quote: "Washi wa daitouryou da!", uz: "Men buyuk Qon Iblisiman, ta'zim qiling!", ru: "Я Великий Демон Крови!", en: "I am the Blood Devil!" },
+
+      { id: 5, name: "Gojo Satoru", anime: "Jujutsu Kaisen", theme: "purple", role: "Eng Kuchli Shaman", power: "Cheksizlik (Limitless)", powerStat: 100, intStat: 95, totalStat: 99, desc: "Zamonaviy dunyoning eng kuchli shamani, yosh sehrgarlarning sevimli ustozi.", quote: "Ryoiki Tenkai: Muryokusho!", uz: "Mening sohamda cheksizlik hukmron.", ru: "Расширение территории!", en: "Domain Expansion!" },
+      { id: 6, name: "Itadori Yuji", anime: "Jujutsu Kaisen", theme: "blue", role: "Sukuna Idishi", power: "Jismoniy kuch va Chaqmoq", powerStat: 85, intStat: 65, totalStat: 80, desc: "Sukuna barmog'ini yutib yuborgan va uning la'natiga bardosh bergan baquvvat talaba.", quote: "Ore wa koukai wa shinai!", uz: "Tanlagan yo'limdan afsuslanmayman!", ru: "Я не пожалею о выборе!", en: "I won't regret this!" },
+      { id: 7, name: "Megumi Fushiguro", anime: "Jujutsu Kaisen", theme: "cyan", role: "1-sinf Shamani", power: "10 Soya Texnikasi", powerStat: 81, intStat: 88, totalStat: 84, desc: "Soyalar orqali turli ruhoniy hayvonlarni chaqirish qobiliyatiga ega vazmin yigit.", quote: "Tokusa no Kage Bojutsu!", uz: "Soya texnikasi faollashdi.", ru: "Техника десяти теней!", en: "Ten Shadows Technique!" },
+      { id: 8, name: "Sukuna Ryomen", anime: "Jujutsu Kaisen", theme: "red", role: "La'natlar Qiroli", power: "Qirqish va Olov", powerStat: 99, intStat: 98, totalStat: 98, desc: "Ming yil oldingi afsonaviy shafqatsiz la'natlar qiroli.", quote: "Ganbare, ganbare!", uz: "Harakat qil, zaif mavjudot!", ru: "Старайся, ничтожество!", en: "Try harder, weakling!" },
+
+      { id: 9, name: "Levi Ackerman", anime: "Attack on Titan", theme: "emerald", role: "Kapitan", power: "Ackerman Jangari Kuch", powerStat: 96, intStat: 88, totalStat: 93, desc: "Qidiruv korpusining eng mahoratli, ozodalikni xush ko'radigan yetakchisi.", quote: "Tatakai... Mushi na koto wo suru na!", uz: "Lashkarboshi buyrug'iga bo'ysun!", ru: "Слушай приказ капитана!", en: "Obey the captain's orders!" },
+      { id: 10, name: "Eren Yeager", anime: "Attack on Titan", theme: "red", role: "Xujumkor Titan", power: "Kelajakni ko'rish", powerStat: 95, intStat: 82, totalStat: 90, desc: "Devorlar ortidagi ozodlik uchun har qanday qurbonlikka tayyor bosh qahramon.", quote: "Tatakae! Tatakae! Susume!", uz: "Olg'a! Ozodlik uchun kurash!", ru: "Борись! Вперед!", en: "Fight! Advance!" },
+      { id: 11, name: "Mikasa Ackerman", anime: "Attack on Titan", theme: "red", role: "Elit Jangchi", power: "Ackerman Genetik Kuch", powerStat: 94, intStat: 75, totalStat: 88, desc: "Erenni himoya qilishni o'zining hayotiy burchi deb biladigan tengsiz jangchi.", quote: "Watashi wa tsuyoi!", uz: "Men kuchliman va seni himoya qilaman.", ru: "Я защищу тебя.", en: "I will protect you." },
+      { id: 12, name: "Erwin Smith", anime: "Attack on Titan", theme: "orange", role: "13-Komandir", power: "Strategiya va Taktika", powerStat: 75, intStat: 99, totalStat: 89, desc: "Insoniyat kelajagi uchun o'z hayotini va qo'shinini xavfga qo'ya oladigan buyuk taktik.", quote: "Shinzou wo Sasageyo!", uz: "Yuraklaringizni bag'ishlang!", ru: "Отдадим свои сердца!", en: "Dedicate your hearts!" },
+
+      { id: 13, name: "Naruto Uzumaki", anime: "Naruto", theme: "orange", role: "7-Hokage", power: "To'qqiz Quyruqli Chaqmoq", powerStat: 97, intStat: 70, totalStat: 92, desc: "Eldagilar tomonidan rad etilgan bo'lsa-da, hech qachon taslim bo'lmagan afsonaviy ninja.", quote: "Ore wa Hokage ni naru! Dattebayo!", uz: "Men albatta Hokage bo'laman!", ru: "Я стану Хокаге!", en: "I'm gonna be Hokage!" },
+      { id: 14, name: "Sasuke Uchiha", anime: "Naruto", theme: "purple", role: "Soya Hokage", power: "Sharingan va Rinnegan", powerStat: 96, intStat: 94, totalStat: 95, desc: "Uchiha urug'ining so'nggi vakillaridan biri, qasos va haqiqat izlovchi ninja.", quote: "Chidori! Amaterasu!", uz: "Qasos mening yo'limdir.", ru: "Месть — мой путь.", en: "Revenge is my path." },
+      { id: 15, name: "Kakashi Hatake", anime: "Naruto", theme: "cyan", role: "6-Hokage", power: "Nusxalovchi Ninja", powerStat: 88, intStat: 96, totalStat: 92, desc: "Mingdan ortiq sehrli usullarni biladigan va doimo kitob o'qib yuruvchi ustoz.", quote: "Raikiri! Kamui!", uz: "Do'stlarini tashlab ketganlar xaindir.", ru: "Бросить друзей — позор.", en: "Never abandon friends." },
+      { id: 16, name: "Itachi Uchiha", anime: "Naruto", theme: "red", role: "Akatsuki a'zosi", power: "Mangekyou Genjutsu", powerStat: 92, intStat: 99, totalStat: 96, desc: "Tinchlik uchun o'z urug'ini qurbon qilgan va ukasini yashirincha himoyalagan qahramon.", quote: "Tsukuyomi... Yuruse Sasuke.", uz: "Meni kechir, Sasuke...", ru: "Прости меня, Саске...", en: "Forgive me, Sasuke..." },
+
+      { id: 17, name: "Monkey D. Luffy", anime: "One Piece", theme: "orange", role: "Qaroqchilar Kapitani", power: "Gear 5 (Rezina)", powerStat: 97, intStat: 60, totalStat: 88, desc: "Dengiz qaroqchilari qiroli bo'lishni maqsad qilgan va do'stlarini hamma narsadan ustun qo'yuvchi kapitan.", quote: "Kaizoku ou ni, ore wa naru!", uz: "Men qaroqchilar qiroli bo'laman!", ru: "Я стану Королем Пиратов!", en: "King of the Pirates!" },
+      { id: 18, name: "Roronoa Zoro", anime: "One Piece", theme: "green", role: "Qilichboz", power: "3 Qilich Uslubi", powerStat: 93, intStat: 72, totalStat: 88, desc: "Dunyodagi eng kuchli qilichboz bo'lishga va'da bergan sadoqatli jangchi.", quote: "Santoryu Ougi!", uz: "Qilichboz orqasidan jarohat olmaydi.", ru: "Шрам на спине — позор.", en: "A scar on the back is shame." },
+      { id: 19, name: "Vinsmoke Sanji", anime: "One Piece", theme: "blue", role: "Oshpaz", power: "Qora Ota Uslubi", powerStat: 90, intStat: 85, totalStat: 88, desc: "Jangda faqat oyoqlaridan foydalanadigan va ayollarni juda hurmat qiladigan mahoratli oshpaz.", quote: "Diable Jambe!", uz: "Oshpaz qo'llarini jangga aralashtirmaydi!", ru: "Повар бережет руки!", en: "A cook's hands are sacred!" },
+      { id: 20, name: "Trafalgar Law", anime: "One Piece", theme: "cyan", role: "Qaroqchi Kapitani", power: "Ope Ope no Mi (Operatsiya)", powerStat: 89, intStat: 96, totalStat: 93, desc: "Atrofida maxsus hudud yaratib, hamma narsani kesa va boshqara oladigan shifokor.", quote: "Room! Shambles!", uz: "Soha yaratildi, nazorat mening qo'limda.", ru: "Комната! Перемещение!", en: "Room! Shambles!" },
+
+      { id: 21, name: "Tanjiro Kamado", anime: "Demon Slayer", theme: "green", role: "Iblis Ovchisi", power: "Quyosh Nafasi", powerStat: 86, intStat: 78, totalStat: 83, desc: "Singlisini insonga qaytarish va iblislarni yo'q qilish uchun kurashayotgan mehribon yigit.", quote: "Mizu no kokyu!", uz: "Suv nafasi! Birinchi usul!", ru: "Дыхание воды!", en: "Water Breathing!" },
+      { id: 22, name: "Nezuko Kamado", anime: "Demon Slayer", theme: "pink", role: "Iblis Singil", power: "Qon San'ati Olovi", powerStat: 85, intStat: 50, totalStat: 73, desc: "Iblisga aylangan bo'lsa-da, insoniyligini saqlab qolgan va odamlarni himoya qiluvchi qiz.", quote: "Mmm-mmm!", uz: "Insonlarni himoya qilaman!", ru: "Я защищу людей!", en: "I protect humans!" },
+      { id: 23, name: "Zenitsu Agatsuma", anime: "Demon Slayer", theme: "orange", role: "Iblis Ovchisi", power: "Chaqmoq Nafasi 1-usul", powerStat: 84, intStat: 60, totalStat: 75, desc: "Qo'rqoq kabi ko'rinsa-da, uxlagan vaqtida chaqmoqdek tezlikda zarba beruvchi jangchi.", quote: "Kaminari no kokyu!", uz: "Chaqmoq nafasi!", ru: "Дыхание молнии!", en: "Thunder Breathing!" },
+      { id: 24, name: "Inosuke Hashibira", anime: "Demon Slayer", theme: "blue", role: "Iblis Ovchisi", power: "Yovvoyi Hayvon Nafasi", powerStat: 83, intStat: 48, totalStat: 70, desc: "To'ng'iz niqobini kiyib yuruvchi, tog'da o'sgan va jangga chanqoq jangchi.", quote: "Inosuke-sama!", uz: "Buyuk Inosuke jangga kirdi!", ru: "Великий Иноске в бою!", en: "Lord Inosuke!" },
+
+      { id: 25, name: "Light Yagami", anime: "Death Note", theme: "purple", role: "Kira", power: "O'lim Daftari", powerStat: 30, intStat: 100, totalStat: 78, desc: "O'lim daftari yordamida dunyoni jinoyatchilardan tozalamoqchi bo'lgan daho talaba.", quote: "Shin sekai no kami da!", uz: "Men yangi dunyo xudosiman!", ru: "Я бог нового мира!", en: "God of the new world!" },
+      { id: 26, name: "L Lawliet", anime: "Death Note", theme: "blue", role: "Bosh Detektiv", power: "Cheksiz Intellekt", powerStat: 35, intStat: 100, totalStat: 80, desc: "Dunyodagi eng qiyin jinoyatlarni ochgan, shirinliklarni xush ko'radigan detektiv.", quote: "Watashi wa L desu.", uz: "Mening ismim L, haqiqatni ochaman.", ru: "Я — L. Раскрою правду.", en: "I am L." },
+      { id: 27, name: "Ryuk", anime: "Death Note", theme: "red", role: "O'lim Xudosi", power: "Shinigami Kuch", powerStat: 90, intStat: 85, totalStat: 88, desc: "Zerikkani sababli O'lim daftarini insonlar dunyosiga tashlab yuborgan mavjudot.", quote: "Ningen tte, omoshiroi!", uz: "Insonlar juda qiziq mavjudotlar.", ru: "Люди такие интересные!", en: "Humans are interesting!" },
+      { id: 28, name: "Misa Amane", anime: "Death Note", theme: "pink", role: "Ikkinchi Kira", power: "Shinigami Ko'zlari", powerStat: 40, intStat: 60, totalStat: 52, desc: "Light Yagamini jonidan ortiq ko'radigan va unga yordam beruvchi mashhur model.", quote: "Light-kun, daisuki!", uz: "Sening yoningda bo'lish uchun hamma narsaga tayyorman.", ru: "Лайт, я все сделаю!", en: "I'll do anything for you!" },
+
+      { id: 29, name: "Son Goku", anime: "Dragon Ball", theme: "orange", role: "Saiyan Jangchisi", power: "Ultra Instinct", powerStat: 99, intStat: 75, totalStat: 94, desc: "Kainotdagi eng kuchli jangchilar bilan bellashishni yaxshi ko'radigan mehribon Saiyan.", quote: "Kamehameha!", uz: "Chegaralarni buzib o'tamiz!", ru: "Пробьем пределы!", en: "Break through limits!" },
+      { id: 30, name: "Vegeta", anime: "Dragon Ball", theme: "blue", role: "Saiyan Shahzodasi", power: "Ultra Ego / Final Flash", powerStat: 98, intStat: 85, totalStat: 95, desc: "O'z g'ururi va oilasi uchun doimo o'zini rivojlantiruvchi mag'rur shahzoda.", quote: "Final Flash!", uz: "Men sayyanlar shahzodasiman!", ru: "Я принц сайянов!", en: "Prince of all Saiyans!" },
+      { id: 31, name: "Gohan", anime: "Dragon Ball", theme: "purple", role: "Gokuning o'g'li", power: "Beast Mode", powerStat: 97, intStat: 90, totalStat: 95, desc: "Tinchlikni va o'qishni xush ko'radigan, ammo g'azablanganda cheksiz kuchga ega jangchi.", quote: "Masenko!", uz: "Yaqinlarimni himoya qilish uchun kurashaman!", ru: "Я защищу близких!", en: "I protect loved ones!" },
+      { id: 32, name: "Piccolo", anime: "Dragon Ball", theme: "green", role: "Namekian Jangchisi", power: "Orange Piccolo", powerStat: 92, intStat: 95, totalStat: 94, desc: "Aqli rasoligi va donoligi bilan ajralib turuvchi, Gohanning sodiq ustozi.", quote: "Makankosappo!", uz: "Diqqat va xotirjamlik – haqiqiy kuchdir.", ru: "Спокойствие — сила.", en: "Focus is real power." }
+    ];
+
+    let likedCharacters = JSON.parse(localStorage.getItem('likedCharacters') || '{}');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const vaultContainer = document.getElementById('vaultContainer');
+      const searchInput = document.getElementById('searchInput');
+      const animeFilter = document.getElementById('animeFilter');
+      const toast = document.getElementById('quoteToast');
+      const toastText = document.getElementById('toastText');
+      const subtitleText = document.getElementById('subtitleText');
+      const galleryBtnText = document.getElementById('galleryBtnText');
+      const modalTitle = document.getElementById('modalTitle');
+      const allAnimeOpt = document.getElementById('allAnimeOpt');
+      const langBtns = document.querySelectorAll('.lang-btn');
+
+      const galleryModal = document.getElementById('galleryModal');
+      const openGalleryBtn = document.getElementById('openGalleryBtn');
+      const closeGalleryBtn = document.getElementById('closeGalleryBtn');
+      const galleryGrid = document.getElementById('galleryGrid');
+
+      const likedModal = document.getElementById('likedModal');
+      const openLikedModalBtn = document.getElementById('openLikedModalBtn');
+      const closeLikedModalBtn = document.getElementById('closeLikedModalBtn');
+      const likedModalTitle = document.getElementById('likedModalTitle');
+      const likedBtnText = document.getElementById('likedBtnText');
+      const likedGrid = document.getElementById('likedGrid');
+
+      const randomVoiceModal = document.getElementById('randomVoiceModal');
+      const randomVoiceTestBtn = document.getElementById('randomVoiceTestBtn');
+      const closeRandomModalBtn = document.getElementById('closeRandomModalBtn');
+      const randomBtnText = document.getElementById('randomBtnText');
+      const randomModalTitle = document.getElementById('randomModalTitle');
+      const replayRandomVoiceBtn = document.getElementById('replayRandomVoiceBtn');
+      const randomVoiceHint = document.getElementById('randomVoiceHint');
+      const randomVoiceOptions = document.getElementById('randomVoiceOptions');
+      const randomGameResultText = document.getElementById('randomGameResultText');
+
+      const versusModal = document.getElementById('versusModal');
+      const openVersusBtn = document.getElementById('openVersusBtn');
+      const closeVersusBtn = document.getElementById('closeVersusBtn');
+      const versusBtnText = document.getElementById('versusBtnText');
+      const versusModalTitle = document.getElementById('versusModalTitle');
+      const fighter1Select = document.getElementById('fighter1Select');
+      const fighter2Select = document.getElementById('fighter2Select');
+      const compareBtn = document.getElementById('compareBtn');
+      const versusResultText = document.getElementById('versusResultText');
+
+      const fighter1Card = document.getElementById('fighter1Card');
+      const fighter2Card = document.getElementById('fighter2Card');
+
+      const f1Name = document.getElementById('f1Name');
+      const f1Role = document.getElementById('f1Role');
+      const f1PowerNum = document.getElementById('f1PowerNum');
+      const f1PowerBar = document.getElementById('f1PowerBar');
+      const f1IntNum = document.getElementById('f1IntNum');
+      const f1IntBar = document.getElementById('f1IntBar');
+      const f1TotalNum = document.getElementById('f1TotalNum');
+      const f1TotalBar = document.getElementById('f1TotalBar');
+
+      const f2Name = document.getElementById('f2Name');
+      const f2Role = document.getElementById('f2Role');
+      const f2PowerNum = document.getElementById('f2PowerNum');
+      const f2PowerBar = document.getElementById('f2PowerBar');
+      const f2IntNum = document.getElementById('f2IntNum');
+      const f2IntBar = document.getElementById('f2IntBar');
+      const f2TotalNum = document.getElementById('f2TotalNum');
+      const f2TotalBar = document.getElementById('f2TotalBar');
+
+      const quizModal = document.getElementById('quizModal');
+      const openQuizBtn = document.getElementById('openQuizBtn');
+      const closeQuizBtn = document.getElementById('closeQuizBtn');
+      const quizBtnText = document.getElementById('quizBtnText');
+      const quizModalTitle = document.getElementById('quizModalTitle');
+      const quizScoreText = document.getElementById('quizScoreText');
+      const quizQuestionText = document.getElementById('quizQuestionText');
+      const quizOptionsContainer = document.getElementById('quizOptionsContainer');
+
+      let quizScore = 0;
+      let currentRandomVoiceItem = null;
+      let audioCtx = null;
+
+      function playEnergySound(theme) {
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          let freq = 400;
+          if (theme === 'purple') freq = 550;
+          if (theme === 'red') freq = 280;
+          if (theme === 'orange') freq = 620;
+          if (theme === 'green' || theme === 'emerald') freq = 420;
+          if (theme === 'blue' || theme === 'cyan') freq = 480;
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(freq * 1.8, audioCtx.currentTime + 0.3);
+
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.35);
+        } catch(e) {}
+      }
+
+      function speakJapaneseQuote(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.85;
+        utterance.pitch = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const jaVoice = voices.find(v => v.lang.includes('ja') || v.lang.includes('JP'));
+        if (jaVoice) utterance.voice = jaVoice;
+
+        window.speechSynthesis.speak(utterance);
+      }
+
+      const uniqueAnimes = [...new Set(charactersData.map(c => c.anime))];
+      uniqueAnimes.forEach(anime => {
+        const opt = document.createElement('option');
+        opt.value = anime;
+        opt.textContent = anime;
+        animeFilter.appendChild(opt);
+      });
+
+      function updateLanguageUI() {
+        const t = uiTranslations[currentLang];
+        subtitleText.textContent = t.subtitle;
+        searchInput.placeholder = t.searchPlaceholder;
+        allAnimeOpt.textContent = t.allAnime;
+        galleryBtnText.textContent = t.galleryBtn;
+        modalTitle.textContent = t.modalTitle;
+        likedBtnText.textContent = t.likedBtn;
+        likedModalTitle.textContent = t.likedTitle;
+        randomBtnText.textContent = t.randomBtn;
+        randomModalTitle.textContent = t.randomModalTitle;
+        replayRandomVoiceBtn.innerHTML = `<i class="fas fa-volume-high"></i> ${t.replayVoice}`;
+        versusBtnText.textContent = t.versusBtn;
+        quizBtnText.textContent = t.quizBtn;
+        versusModalTitle.textContent = t.versusTitle;
+        quizModalTitle.textContent = t.quizTitle;
+        compareBtn.innerHTML = `<i class="fa-solid fa-trophy"></i> ${t.compareBtnText}`;
+        filterCharacters();
+      }
+
+      function renderCharacters(items) {
+        vaultContainer.innerHTML = '';
+        const playBtnLabel = uiTranslations[currentLang].playBtn;
+
+        items.forEach(char => {
+          const card = document.createElement('div');
+          card.className = 'character-card';
+          card.setAttribute('data-theme', char.theme);
+
+          const characterTranslation = char[currentLang] || char.uz;
+          const isLiked = likedCharacters[char.id] ? 'liked fa-solid' : 'fa-regular';
+
+          card.innerHTML = `
+            <div>
+              <div class="card-header">
+                <span class="tag">${char.anime}</span>
+                <div class="card-top-actions">
+                  <button class="like-btn ${isLiked} fa-heart" data-id="${char.id}"></button>
+                  <div class="avatar-icon"><i class="fa-solid fa-bolt"></i></div>
+                </div>
+              </div>
+              <h2>${char.name}</h2>
+              <div class="info-badge"><i class="fa-solid fa-shield-halved"></i> ${char.role}</div>
+              <p class="quote">"${characterTranslation}"</p>
+            </div>
+            <button class="play-btn"><i class="fas fa-volume-high"></i> ${playBtnLabel}</button>
+          `;
+
+          const likeBtn = card.querySelector('.like-btn');
+          likeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (likedCharacters[char.id]) {
+              delete likedCharacters[char.id];
+              likeBtn.classList.remove('liked', 'fa-solid');
+              likeBtn.classList.add('fa-regular');
+            } else {
+              likedCharacters[char.id] = true;
+              likeBtn.classList.add('liked', 'fa-solid');
+              likeBtn.classList.remove('fa-regular');
+            }
+            localStorage.setItem('likedCharacters', JSON.stringify(likedCharacters));
+          });
+
+          card.addEventListener('click', () => {
+            document.querySelectorAll('.character-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+
+            document.body.setAttribute('data-theme', char.theme);
+
+            playEnergySound(char.theme);
+            speakJapaneseQuote(char.quote);
+
+            toastText.textContent = `${char.name}: "${char.quote}"`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+          });
+
+          vaultContainer.appendChild(card);
+        });
+      }
+
+      function renderInfoGallery() {
+        galleryGrid.innerHTML = '';
+        charactersData.forEach(char => {
+          const item = document.createElement('div');
+          item.className = 'info-card';
+          item.innerHTML = `
+            <div class="info-card-header">
+              <h4>${char.name}</h4>
+              <span class="anime-name">${char.anime}</span>
+            </div>
+            <div class="info-tag">${char.role}</div>
+            <p class="info-details"><strong>Qobiliyati:</strong> ${char.power} (${char.powerStat}/100)</p>
+            <p class="info-details">${char.desc}</p>
+          `;
+          galleryGrid.appendChild(item);
+        });
+      }
+
+      function renderLikedGallery() {
+        likedGrid.innerHTML = '';
+        const likedIds = Object.keys(likedCharacters);
+
+        if (likedIds.length === 0) {
+          likedGrid.innerHTML = `<p style="color: #a1a1aa; grid-column: 1 / -1; text-align: center; padding: 20px;">Hozircha sevimlilarga hech qanday qahramon qo'shilmagan.</p>`;
+          return;
+        }
+
+        likedIds.forEach(id => {
+          const char = charactersData.find(c => c.id == id);
+          if (char) {
+            const item = document.createElement('div');
+            item.className = 'info-card';
+            item.innerHTML = `
+              <div class="info-card-header">
+                <h4>${char.name}</h4>
+                <span class="anime-name">${char.anime}</span>
+              </div>
+              <div class="info-tag">${char.role}</div>
+              <p class="info-details"><strong>Qobiliyati:</strong> ${char.power}</p>
+              <p class="quote" style="margin: 5px 0; font-size: 0.85rem;">"${char[currentLang] || char.uz}"</p>
+            `;
+            likedGrid.appendChild(item);
+          }
+        });
+      }
+
+      function initRandomVoiceGame() {
+        randomVoiceOptions.innerHTML = '';
+        randomGameResultText.textContent = '';
+        
+        const randomIndex = Math.floor(Math.random() * charactersData.length);
+        currentRandomVoiceItem = charactersData[randomIndex];
+
+        speakJapaneseQuote(currentRandomVoiceItem.quote);
+        playEnergySound(currentRandomVoiceItem.theme);
+
+        randomVoiceHint.textContent = currentLang === 'ru' ? "Слушайте аудио! Чей это голос?" : (currentLang === 'en' ? "Listen to the audio! Whose voice is this?" : "Ovozni tinglang! Bu kimning ovozi?");
+
+        let options = [currentRandomVoiceItem];
+        while (options.length < 4) {
+          const randOpt = charactersData[Math.floor(Math.random() * charactersData.length)];
+          if (!options.includes(randOpt)) {
+            options.push(randOpt);
+          }
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-opt-btn';
+          btn.textContent = `${opt.name} (${opt.anime})`;
+          btn.addEventListener('click', () => {
+            const allBtns = randomVoiceOptions.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if (opt.id === currentRandomVoiceItem.id) {
+              btn.classList.add('correct');
+              randomGameResultText.innerHTML = `<span style="color: #10b981;">To'g'ri! Bu haqiqatan ham ${currentRandomVoiceItem.name} (${currentRandomVoiceItem.anime})</span>`;
+            } else {
+              btn.classList.add('wrong');
+              allBtns.forEach(b => {
+                if (b.textContent.includes(currentRandomVoiceItem.name)) {
+                  b.classList.add('correct');
+                }
+              });
+              randomGameResultText.innerHTML = `<span style="color: #ef4444;">Xato! Bu ${currentRandomVoiceItem.name} (${currentRandomVoiceItem.anime}) edi.</span>`;
+            }
+
+            setTimeout(() => {
+              initRandomVoiceGame();
+            }, 2500);
+          });
+          randomVoiceOptions.appendChild(btn);
+        });
+      }
+
+      replayRandomVoiceBtn.addEventListener('click', () => {
+        if (currentRandomVoiceItem) {
+          speakJapaneseQuote(currentRandomVoiceItem.quote);
+        }
+      });
+
+      randomVoiceTestBtn.addEventListener('click', () => {
+        initRandomVoiceGame();
+        randomVoiceModal.classList.add('active');
+      });
+      closeRandomModalBtn.addEventListener('click', () => randomVoiceModal.classList.remove('active'));
+
+      function setupVersusSelectors() {
+        fighter1Select.innerHTML = '';
+        fighter2Select.innerHTML = '';
+        charactersData.forEach((char, idx) => {
+          const opt1 = document.createElement('option');
+          opt1.value = idx;
+          opt1.textContent = `${char.name} (${char.anime})`;
+          fighter1Select.appendChild(opt1);
+
+          const opt2 = document.createElement('option');
+          opt2.value = idx;
+          opt2.textContent = `${char.name} (${char.anime})`;
+          fighter2Select.appendChild(opt2);
+        });
+        if (charactersData.length > 1) {
+          fighter2Select.value = 1;
+        }
+        updateVersusFighters();
+      }
+
+      function updateVersusFighters() {
+        fighter1Card.classList.remove('winner');
+        fighter2Card.classList.remove('winner');
+        versusResultText.textContent = "Qahramonlarni tanlang va natijani ko'ring";
+
+        const f1 = charactersData[fighter1Select.value];
+        const f2 = charactersData[fighter2Select.value];
+
+        f1Name.textContent = f1.name;
+        f1Role.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${f1.role} (${f1.anime})`;
+        f1PowerNum.textContent = f1.powerStat;
+        f1PowerBar.style.width = f1.powerStat + '%';
+        
+        f1IntNum.textContent = f1.intStat;
+        f1IntBar.style.width = f1.intStat + '%';
+
+        f1TotalNum.textContent = f1.totalStat;
+        f1TotalBar.style.width = f1.totalStat + '%';
+
+        f2Name.textContent = f2.name;
+        f2Role.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${f2.role} (${f2.anime})`;
+        f2PowerNum.textContent = f2.powerStat;
+        f2PowerBar.style.width = f2.powerStat + '%';
+
+        f2IntNum.textContent = f2.intStat;
+        f2IntBar.style.width = f2.intStat + '%';
+
+        f2TotalNum.textContent = f2.totalStat;
+        f2TotalBar.style.width = f2.totalStat + '%';
+      }
+
+      compareBtn.addEventListener('click', () => {
+        const f1 = charactersData[fighter1Select.value];
+        const f2 = charactersData[fighter2Select.value];
+
+        fighter1Card.classList.remove('winner');
+        fighter2Card.classList.remove('winner');
+
+        if (f1.totalStat > f2.totalStat) {
+          fighter1Card.classList.add('winner');
+          versusResultText.innerHTML = `🏆 G'olib: <strong style="color: #10b981;">${f1.name}</strong> (${f1.totalStat} ball vs ${f2.totalStat} ball)`;
+        } else if (f2.totalStat > f1.totalStat) {
+          fighter2Card.classList.add('winner');
+          versusResultText.innerHTML = `🏆 G'olib: <strong style="color: #10b981;">${f2.name}</strong> (${f2.totalStat} ball vs ${f1.totalStat} ball)`;
+        } else {
+          versusResultText.innerHTML = `🤝 Durang! Har ikki qahramon reytingi teng (${f1.totalStat} ball)`;
+        }
+      });
+
+      function loadNewQuizQuestion() {
+        quizOptionsContainer.innerHTML = '';
+        const randomIndex = Math.floor(Math.random() * charactersData.length);
+        let currentQuizItem = charactersData[randomIndex];
+
+        quizQuestionText.textContent = `Ushbu qobiliyat yoki ma'lumot qaysi qahramonga tegishli: "${currentQuizItem.power}"?`;
+
+        let options = [currentQuizItem];
+        while (options.length < 4) {
+          const randOpt = charactersData[Math.floor(Math.random() * charactersData.length)];
+          if (!options.includes(randOpt)) {
+            options.push(randOpt);
+          }
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-opt-btn';
+          btn.textContent = `${opt.name} (${opt.anime})`;
+          btn.addEventListener('click', () => {
+            const allBtns = quizOptionsContainer.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if (opt.id === currentQuizItem.id) {
+              btn.classList.add('correct');
+              quizScore += 10;
+            } else {
+              btn.classList.add('wrong');
+              allBtns.forEach(b => {
+                if (b.textContent.includes(currentQuizItem.name)) {
+                  b.classList.add('correct');
+                }
+              });
+            }
+            quizScoreText.textContent = `Ball: ${quizScore}`;
+            setTimeout(() => {
+              loadNewQuizQuestion();
+            }, 1500);
+          });
+          quizOptionsContainer.appendChild(btn);
+        });
+      }
+
+      function filterCharacters() {
+        const query = searchInput.value.toLowerCase();
+        const selectedAnime = animeFilter.value;
+
+        const filtered = charactersData.filter(char => {
+          const matchesSearch = char.name.toLowerCase().includes(query) || char.anime.toLowerCase().includes(query);
+          const matchesAnime = selectedAnime === 'all' || char.anime === selectedAnime;
+          return matchesSearch && matchesAnime;
+        });
+
+        renderCharacters(filtered);
+      }
+
+      openGalleryBtn.addEventListener('click', () => {
+        renderInfoGallery();
+        galleryModal.classList.add('active');
+      });
+      closeGalleryBtn.addEventListener('click', () => galleryModal.classList.remove('active'));
+
+      openLikedModalBtn.addEventListener('click', () => {
+        renderLikedGallery();
+        likedModal.classList.add('active');
+      });
+      closeLikedModalBtn.addEventListener('click', () => likedModal.classList.remove('active'));
+
+      openVersusBtn.addEventListener('click', () => {
+        setupVersusSelectors();
+        versusModal.classList.add('active');
+      });
+      closeVersusBtn.addEventListener('click', () => versusModal.classList.remove('active'));
+
+      openQuizBtn.addEventListener('click', () => {
+        quizScore = 0;
+        quizScoreText.textContent = `Ball: ${quizScore}`;
+        loadNewQuizQuestion();
+        quizModal.classList.add('active');
+      });
+      closeQuizBtn.addEventListener('click', () => quizModal.classList.remove('active'));
+
+      fighter1Select.addEventListener('change', updateVersusFighters);
+      fighter2Select.addEventListener('change', updateVersusFighters);
+
+      langBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          langBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentLang = btn.getAttribute('data-lang');
+          updateLanguageUI();
+        });
+      });
+
+      searchInput.addEventListener('input', filterCharacters);
+      animeFilter.addEventListener('change', filterCharacters);
+
+      updateLanguageUI();
+    });
+  </script>
+</body>
+</html>
